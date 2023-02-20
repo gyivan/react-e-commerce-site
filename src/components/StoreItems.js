@@ -1,12 +1,22 @@
 import StoreItem from "./StoreItem"
 
 //All Store Items list model
-const StoreItems = ( {items} ) => {
+const StoreItems = ( {
+  items,
+  handleItemIdChange,
+  handleQtyToAddChange,
+  handleAddToCart
+} ) => {
   return (
     <>
       {items.map(
         (item) => (
-            <StoreItem key={item.id} item={item} />
+            <StoreItem key={item.id}
+            item={item}
+            handleItemIdChange={handleItemIdChange}
+            handleQtyToAddChange={handleQtyToAddChange}
+            handleAddToCart={handleAddToCart}
+            />
         )
       )}
     </>

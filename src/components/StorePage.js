@@ -5,6 +5,10 @@ const StorePage = ( {
     storeData,
     showCart,
     clickCart,
+
+    handleItemIdChange,
+    handleQtyToAddChange,
+    handleAddToCart
   } ) => {
     return (
       <div className="container">
@@ -15,7 +19,12 @@ const StorePage = ( {
         {(typeof storeData === 'undefined') ? (
               <p>Loading...</p>
             ) : (
-              <StoreItems items={storeData} />
+              <StoreItems
+              items={storeData}
+              handleItemIdChange={handleItemIdChange}
+              handleQtyToAddChange={handleQtyToAddChange}
+              handleAddToCart={handleAddToCart}
+              />
             )}
       </div>
     )

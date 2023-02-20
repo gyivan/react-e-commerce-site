@@ -1,7 +1,11 @@
 import { useState } from "react"
 
 //Individual Store Item model
-const StoreItem = ( {item, handleAddItemToCart} ) => {
+const StoreItem = ( {item,
+  handleAddToCart,
+  handleItemIdChange,
+  handleQtyToAddChange
+} ) => {
 
   const [image, setImage] = useState(null)
 
@@ -16,7 +20,7 @@ const StoreItem = ( {item, handleAddItemToCart} ) => {
       {item.name}
       <p>{item.price}</p>
       </h3>
-      <form onSubmit={handleAddItemToCart}>
+      <form onSubmit={handleAddToCart}>
       <label for={item.qtyToAdd}>Quantity to add to cart: </label>
       <input type="number" id={item.qtyToAdd} name="quantity" min="0" />
       <input type="submit" value="Add to Cart" className="btn" />

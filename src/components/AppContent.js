@@ -6,7 +6,11 @@ const AppContent = ( {
     cartData,
     showCart,
     clickCart,
-    clickShop
+    clickShop,
+
+    handleItemIdChange,
+    handleQtyToAddChange,
+    handleAddToCart
   } ) => {
   return (
     <>
@@ -19,7 +23,12 @@ const AppContent = ( {
     <StorePage
     storeData={storeData}
     showCart={showCart}
-    clickCart={clickCart} /> }
+    clickCart={clickCart}
+    
+    handleItemIdChange={handleItemIdChange}
+    handleQtyToAddChange={handleQtyToAddChange}
+    handleAddToCart={handleAddToCart}
+    /> }
     </>
   )
   }

@@ -1,5 +1,4 @@
 import CartItem from "./CartItem"
-import { FaTimes } from "react-icons/fa"
 
 const CartItems = ( {items} ) => {
 

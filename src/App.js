@@ -100,6 +100,31 @@ function App() {
 
 
   //Add items to cart
+  const [qtyToAdd, setQtyToAdd] = useState(0)
+  const [itemId, setItemId] = useState(0)
+  const handleItemIdChange = event => {
+    setItemId(event.target.value)
+  }
+  const handleQtyToAddChange = event => {
+    setQtyToAdd(event.target.value)
+  }
+  const handleAddToCart = async (event) => {
+    event.preventDefault()
+
+    try {
+      const res = await axios.post('http://127.0.0.1:5000/api/cart-data', {
+      itemId,
+      qtyToAdd
+      }, {headers: {
+        'Authorization': 'Basic ' + btoa('admin:secret'),
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors'})
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
 
   return (
@@ -112,6 +137,10 @@ function App() {
         showCart={showCartPage}
         clickCart={clickCart}
         clickShop={clickShop}
+
+        handleItemIdChange={handleItemIdChange}
+        handleQtyToAddChange={handleQtyToAddChange}
+        handleAddToCart={handleAddToCart}
         />
       ) : (
         // if isLoggedIn is false, display Login Page

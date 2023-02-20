@@ -16,35 +16,45 @@ storeData = [
             "name": "Hamburger",
             "price": "$5.00",
             "isInCart": False,
-            "qtyInCart": 1
+            "qtyInCart": 1,
+            "qtyToAdd": 0,
+            "qtyToRemove": 0
             },
             {
             "id" : 2,
             "name": "French Fries",
             "price": "$6.00",
             "isInCart": False,
-            "qtyInCart": 0
+            "qtyInCart": 0,
+            "qtyToAdd": 0,
+            "qtyToRemove": 0
             },
             {
             "id" : 3,
             "name": "Ham Sandwich",
             "price": "$5.00",
             "isInCart": False,
-            "qtyInCart": 0
+            "qtyInCart": 0,
+            "qtyToAdd": 0,
+            "qtyToRemove": 0
             },
             {
             "id" : 4,
             "name": "Grilled Steak",
             "price": "$10.00",
             "isInCart": True,
-            "qtyInCart": 1
+            "qtyInCart": 1,
+            "qtyToAdd": 0,
+            "qtyToRemove": 0
             },
             {
             "id" : 5,
             "name": "Baked Potato",
             "price": "$3.00",
             "isInCart": True,
-            "qtyInCart": 1
+            "qtyInCart": 1,
+            "qtyToAdd": 0,
+            "qtyToRemove": 0
             }
   ]
 
@@ -55,14 +65,18 @@ cartData = [
             "name": "Grilled Steak",
             "price": "$10.00",
             "isInCart": True,
-            "qtyInCart": 1
+            "qtyInCart": 1,
+            "qtyToAdd": 0,
+            "qtyToRemove": 0
             },
             {
             "id" : 5,
             "name": "Baked Potato",
             "price": "$3.00",
             "isInCart": True,
-            "qtyInCart": 1
+            "qtyInCart": 1,
+            "qtyToAdd": 0,
+            "qtyToRemove": 0
             }
             ]
 
@@ -106,26 +120,28 @@ def get_post_store_data():
     response = make_response
     if request.method == 'GET': #get data
         response = jsonify(storeData)
-    elif request.method == 'POST': #add data
-        global maxID
-        item = {
-        "id" : request.json['id'],
-        "name": request.json['name'],
-        "price": request.json['price'],
-        "isInCart": request.json['isInCart'],
-        "qtyInCart": request.json['qtyInCart']
-        }
-        for element in storeData:
-            if element["id"] == item["id"]:
-                storeData.remove(element)
-                storeData.append(item)
-        response = jsonify({'data': 'received'})
+    # elif request.method == 'POST': #add data
+    #     global maxID
+    #     item = {
+    #     "id" : request.json['id'],
+    #     # "name": request.json['name'],
+    #     # "price": request.json['price'],
+    #     # "isInCart": request.json['isInCart'],
+    #     # "qtyInCart": request.json['qtyInCart']
+    #     }
+    #     for element in storeData:
+    #         if element["id"] == item["id"]:
+    #             storeData.remove(element)
+    #             storeData.append(item)
+    #     response = jsonify({'data': 'received'})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
-@app.route("/api/store-data/<id>", methods=['PUT', 'DELETE']) #handle PUT and DELETE requests
+
+#CART PAGE
+@app.route("/api/cart-data/<id>", methods=['PUT', 'DELETE']) #handle PUT and DELETE requests
 @auth.login_required
-def change_delete_data(id):
+def change_delete_cart_data(id):
     if request.method == 'OPTIONS': #handle preflight request
         response = make_response
     elif request.method == 'PUT': #modify data
@@ -166,18 +182,25 @@ def get_post_cart_data():
         global maxID
         item = {
         "id" : request.json['id'],
-        "name": request.json['name'],
-        "price": request.json['price'],
-        "isInCart": request.json['isInCart'],
-        "qtyInCart": request.json['qtyInCart']
+        "qtyToAdd": request.json['qtyToAdd'],
         }
         itemFound = False
         for element in cartData:
             if element["id"] == item["id"]:
                 itemFound = True
-                element["qtyInCart"] = item["qtyInCart"]
+                element["qtyInCart"] += item["qtyToAdd"]
+                item["qtyToAdd"] = 0
+                element["qtyToAdd"] = 0
+                
         if itemFound == False: #if item is not already in cart
-            cartData.append(item)
+            # cartData.append(item)
+            for element in storeData: #find element in store data
+                if element["id"] == item["id"]:
+                    temp = item["qtyToAdd"]
+                    item = element
+                    item["qtyInCart"] += temp
+                    item["qtyToAdd"] = 0
+                    cartData.append(item)
         
         #update store data to include item in cart
         for element in storeData:
