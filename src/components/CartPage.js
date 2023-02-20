@@ -1,6 +1,8 @@
 import Header from "./Header"
+import CartItems from "./CartItems"
 
 const CartPage = ( {
+    cartData,
     showCart,
     clickShop
   } ) => {
@@ -10,6 +12,11 @@ const CartPage = ( {
         title='Cart'
         showCart={showCart}
         clickShop={clickShop} />
+        {(typeof cartData === 'undefined') ? (
+              <p>Loading...</p>
+            ) : (
+              <CartItems items={cartData} />
+            )}
       </div>
     )
   }

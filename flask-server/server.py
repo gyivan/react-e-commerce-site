@@ -15,7 +15,7 @@ storeData = [
             "id" : 1,
             "name": "Hamburger",
             "price": "$5.00",
-            "isInCart": True,
+            "isInCart": False,
             "qtyInCart": 1
             },
             {
@@ -31,8 +31,41 @@ storeData = [
             "price": "$5.00",
             "isInCart": False,
             "qtyInCart": 0
+            },
+            {
+            "id" : 4,
+            "name": "Grilled Steak",
+            "price": "$10.00",
+            "isInCart": True,
+            "qtyInCart": 1
+            },
+            {
+            "id" : 5,
+            "name": "Baked Potato",
+            "price": "$3.00",
+            "isInCart": True,
+            "qtyInCart": 1
             }
   ]
+
+
+cartData = [
+            {
+            "id" : 4,
+            "name": "Grilled Steak",
+            "price": "$10.00",
+            "isInCart": True,
+            "qtyInCart": 1
+            },
+            {
+            "id" : 5,
+            "name": "Baked Potato",
+            "price": "$3.00",
+            "isInCart": True,
+            "qtyInCart": 1
+            }
+            ]
+
 
 #Basic authentication
 @auth.verify_password
@@ -52,12 +85,10 @@ def login():
 
         #Check if username and password are correct
         if username == 'admin' and password == 'secret':
-            print('CORRECT PASSWORD', username, password)
             response = make_response("", 200)
             response.headers.add('Access-Control-Allow-Origin', '*')
             return response
         else:
-            print('WRONG PASSWORD', username, password)
             response = make_response("", 500)
             response.headers.add('Access-Control-Allow-Origin', '*')
             return response
@@ -67,22 +98,83 @@ def login():
 
 
 #App page
+
+#STORE PAGE
 @app.route("/api/store-data", methods=['GET', 'POST']) #handle GET and POST requests
 @auth.login_required
-def get_post_data():
+def get_post_store_data():
     response = make_response
     if request.method == 'GET': #get data
         response = jsonify(storeData)
     elif request.method == 'POST': #add data
         global maxID
-        task = {
-        "id": maxID + 1,
-        "text": request.json['text'],
-        "day": request.json['day'],
-        "reminder": request.json['reminder']
+        item = {
+        "id" : request.json['id'],
+        "name": request.json['name'],
+        "price": request.json['price'],
+        "isInCart": request.json['isInCart'],
+        "qtyInCart": request.json['qtyInCart']
         }
-        storeData.append(task)
-        maxID += 1
+        for element in storeData:
+            if element["id"] == item["id"]:
+                storeData.remove(element)
+                storeData.append(item)
+        response = jsonify({'data': 'received'})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+@app.route("/api/store-data/<id>", methods=['PUT', 'DELETE']) #handle PUT and DELETE requests
+@auth.login_required
+def change_delete_data(id):
+    if request.method == 'OPTIONS': #handle preflight request
+        response = make_response
+    elif request.method == 'PUT': #modify data
+        item = {}
+        for element in storeData:
+            if element["id"] == int(id):
+                item = element
+        if len(item) == 0:
+            response = make_response("Not found", 404)
+            response.headers.add('Access-Control-Allow-Origin', '*')
+            return response
+        #add qty to cart
+        item["qtyInCart"] += int(request.json["qtyToAdd"])
+        response = make_response(jsonify(item))
+    elif request.method == 'DELETE': #delete data
+        item = {}
+        for element in storeData:
+            if element["id"] == int(id):
+                item = element
+        if len(item) == 0:
+            response = make_response("Not found", 404)
+            response.headers.add('Access-Control-Allow-Origin', '*')
+            return response
+        storeData.remove(item)
+        response = make_response("", 204)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+
+#CART PAGE
+@app.route("/api/cart-data", methods=['GET', 'POST']) #handle GET and POST requests
+@auth.login_required
+def get_post_cart_data():
+    response = make_response
+    if request.method == 'GET': #get data
+        response = jsonify(cartData)
+    elif request.method == 'POST': #add data
+        global maxID
+        item = {
+        "id" : request.json['id'],
+        "name": request.json['name'],
+        "price": request.json['price'],
+        "isInCart": request.json['isInCart'],
+        "qtyInCart": request.json['qtyInCart']
+        }
+        for element in cartData:
+            if element["id"] == item["id"]:
+                cartData.remove(element)
+                cartData.append(item)
         response = jsonify({'data': 'received'})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response

@@ -4,7 +4,7 @@ import Header from "./Header"
 const StorePage = ( {
     storeData,
     showCart,
-    clickCart
+    clickCart,
   } ) => {
     return (
       <div className="container">

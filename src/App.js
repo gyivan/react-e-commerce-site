@@ -1,17 +1,17 @@
 import './App.css';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import StorePage from './components/StorePage';
-import CartPage from './components/CartPage';
+import AppContent from './components/AppContent';
 import LoginPage from './components/LoginPage';
 
 function App() {
 
   //Display data from backend
   const [storeData, setStoreData] = useState([{}])
+  const [cartData, setCartData] = useState([{}])
   const [error, setError] = useState([{}])
 
-  const fetchData = async () => {
+  const fetchStoreData = async () => {
     try {
       const res = await axios.get('http://127.0.0.1:5000/api/store-data',
       {headers: {
@@ -27,8 +27,25 @@ function App() {
     }
   }
 
+  const fetchCartData = async () => {
+    try {
+      const res = await axios.get('http://127.0.0.1:5000/api/cart-data',
+      {headers: {
+      'Authorization': 'Basic ' + btoa('admin:secret'),
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json'
+      },
+      mode: 'cors'})
+      setCartData(res.data)
+      console.log(storeData)
+    } catch (error) {
+      setError(error)
+    }
+  }
+
   useEffect(() => {
-    fetchData()
+    fetchStoreData()
+    fetchCartData()
   }, [])
 
   //Login functionality
@@ -81,50 +98,6 @@ function App() {
     setShowCartPage(false)
   }
 
-  const AppContent = ( {
-    storeData,
-    showCart,
-    clickCart,
-    clickShop
-  } ) => {
-  return (
-    <>
-    { showCart ? 
-    <CartPage
-    showCart={showCart}
-    clickShop={clickShop} />
-    :
-    <StorePage
-    storeData={storeData}
-    showCart={showCart}
-    clickCart={clickCart} /> }
-    </>
-  )
-  }
-
-  // const data = [
-  //   {
-  //   "id" : 1,
-  //   "name": "Hamburger",
-  //   "price": "$5.00",
-  //   "isInCart": true,
-  //   "qtyInCart": 1
-  //   },
-  //   {
-  //   "id" : 2,
-  //   "name": "French Fries",
-  //   "price": "$6.00",
-  //   "isInCart": false,
-  //   "qtyInCart": 0
-  //   },
-  //   {
-  //   "id" : 3,
-  //   "name": "Ham Sandwich",
-  //   "price": "$5.00",
-  //   "isInCart": false,
-  //   "qtyInCart": 0
-  //   }
-  // ]
 
   return (
     <div>
@@ -133,6 +106,7 @@ function App() {
         // if isLoggedIn is true, display main content
         <AppContent 
         storeData={storeData}
+        cartData={cartData}
         showCart={showCartPage}
         clickCart={clickCart}
         clickShop={clickShop}
