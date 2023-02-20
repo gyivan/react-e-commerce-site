@@ -1,9 +1,9 @@
 import './App.css';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
-import StoreItems from './components/StoreItems';
+import { useState } from 'react';
+import StorePage from './components/StorePage';
+import CartPage from './components/CartPage';
 import LoginPage from './components/LoginPage';
-import Header from './components/Header';
 
 function App() {
 
@@ -72,60 +72,34 @@ function App() {
     clickShop={clickShop} />
     :
     <StorePage
-    storeData={storeData}
+    storeData={data}
     showCart={showCart}
     clickCart={clickCart} /> }
     </>
   )
   }
 
-  const CartPage = ( {
-    showCart,
-    clickShop
-  } ) => {
-    return (
-      <div className="container">
-        <Header
-        title='Cart'
-        showCart={showCart}
-        clickShop={clickShop} />
-        {/* <img src="images/Hamburger.jpg" alt='Hamburger image' /> */}
-      </div>
-    )
-  }
-
-  const StorePage = ( {
-    storeData,
-    showCart,
-    clickCart
-  } ) => {
-    return (
-      <div className="container">
-        <Header
-        title="Shop"
-        showCart={showCart}
-        clickCart={clickCart} />
-        {(typeof storeData === 'undefined') ? (
-              <p>Loading...</p>
-            ) : (
-              <StoreItems items={storeData} />
-            )}
-      </div>
-    )
-  }
-
-  const storeData = [
+  const data = [
     {
     "id" : 1,
     "name": "Hamburger",
-    "price": 5.00,
-    "inCart": false
+    "price": "$5.00",
+    "isInCart": true,
+    "qtyInCart": 1
     },
     {
     "id" : 2,
     "name": "French Fries",
-    "price": 6.00,
-    "inCart": false
+    "price": "$6.00",
+    "isInCart": false,
+    "qtyInCart": 0
+    },
+    {
+    "id" : 3,
+    "name": "Ham Sandwich",
+    "price": "$5.00",
+    "isInCart": false,
+    "qtyInCart": 0
     }
   ]
 
@@ -135,7 +109,7 @@ function App() {
       { isLoggedIn ? (
         // if isLoggedIn is true, display main content
         <AppContent 
-        storeData={storeData}
+        storeData={data}
         showCart={showCartPage}
         clickCart={clickCart}
         clickShop={clickShop}

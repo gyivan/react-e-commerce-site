@@ -61,7 +61,7 @@ body {
   cursor: pointer;
 }
 
-.item.reminder {
+.item.inCart {
   border-left: 5px solid green;
 }
 

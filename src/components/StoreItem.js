@@ -11,10 +11,11 @@ const StoreItem = ( {item} ) => {
   })
 
   return (
-    <div className="item">
-      {image && <img src={image} alt={item.name} />}
-      <h3>{item.name}</h3>
+    <div className={`item ${item.isInCart ? 'inCart' : ''}`}>
+      <h3>{image && <img src={image} alt={item.name} />}
+      {item.name}
       <p>{item.price}</p>
+      </h3>
     </div>
   )
 }
