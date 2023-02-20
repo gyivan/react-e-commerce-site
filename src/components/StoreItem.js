@@ -5,7 +5,7 @@ const StoreItem = ( {item} ) => {
 
   const [image, setImage] = useState(null)
 
-  //Dynamically import the image using the item name
+  // Dynamically import the image using the item name
   import(`./images/${item.name}.jpg`).then(image => {
     setImage(image.default)
   })
@@ -13,6 +13,7 @@ const StoreItem = ( {item} ) => {
   return (
     <div className={`item ${item.isInCart ? 'inCart' : ''}`}>
       <h3>{image && <img src={image} alt={item.name} />}
+      {/* <h3> */}
       {item.name}
       <p>{item.price}</p>
       </h3>

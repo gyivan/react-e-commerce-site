@@ -1,17 +1,40 @@
 import './App.css';
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import StorePage from './components/StorePage';
 import CartPage from './components/CartPage';
 import LoginPage from './components/LoginPage';
 
 function App() {
 
+  //Display data from backend
+  const [storeData, setStoreData] = useState([{}])
+  const [error, setError] = useState([{}])
+
+  const fetchData = async () => {
+    try {
+      const res = await axios.get('http://127.0.0.1:5000/api/store-data',
+      {headers: {
+      'Authorization': 'Basic ' + btoa('admin:secret'),
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json'
+      },
+      mode: 'cors'})
+      setStoreData(res.data)
+      console.log(storeData)
+    } catch (error) {
+      setError(error)
+    }
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
   //Login functionality
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [error, setError] = useState([{}])
 
   const handleUsernameChange = event => {
     setUsername(event.target.value)
@@ -72,36 +95,36 @@ function App() {
     clickShop={clickShop} />
     :
     <StorePage
-    storeData={data}
+    storeData={storeData}
     showCart={showCart}
     clickCart={clickCart} /> }
     </>
   )
   }
 
-  const data = [
-    {
-    "id" : 1,
-    "name": "Hamburger",
-    "price": "$5.00",
-    "isInCart": true,
-    "qtyInCart": 1
-    },
-    {
-    "id" : 2,
-    "name": "French Fries",
-    "price": "$6.00",
-    "isInCart": false,
-    "qtyInCart": 0
-    },
-    {
-    "id" : 3,
-    "name": "Ham Sandwich",
-    "price": "$5.00",
-    "isInCart": false,
-    "qtyInCart": 0
-    }
-  ]
+  // const data = [
+  //   {
+  //   "id" : 1,
+  //   "name": "Hamburger",
+  //   "price": "$5.00",
+  //   "isInCart": true,
+  //   "qtyInCart": 1
+  //   },
+  //   {
+  //   "id" : 2,
+  //   "name": "French Fries",
+  //   "price": "$6.00",
+  //   "isInCart": false,
+  //   "qtyInCart": 0
+  //   },
+  //   {
+  //   "id" : 3,
+  //   "name": "Ham Sandwich",
+  //   "price": "$5.00",
+  //   "isInCart": false,
+  //   "qtyInCart": 0
+  //   }
+  // ]
 
   return (
     <div>
@@ -109,7 +132,7 @@ function App() {
       { isLoggedIn ? (
         // if isLoggedIn is true, display main content
         <AppContent 
-        storeData={data}
+        storeData={storeData}
         showCart={showCartPage}
         clickCart={clickCart}
         clickShop={clickShop}
