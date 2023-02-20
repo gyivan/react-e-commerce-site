@@ -8,6 +8,7 @@ const AppContent = ( {
     clickCart,
     clickShop,
 
+    itemId,
     handleItemIdChange,
     handleQtyToAddChange,
     handleAddToCart

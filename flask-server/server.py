@@ -6,7 +6,7 @@ auth = HTTPBasicAuth()
 
 #Create a new Flask application
 app = Flask(__name__)
-cors = CORS(app)
+cors = CORS(app, origins='*')
 # app.config['CORS_HEADERS'] = 'Content-Type'
 
 
@@ -120,20 +120,6 @@ def get_post_store_data():
     response = make_response
     if request.method == 'GET': #get data
         response = jsonify(storeData)
-    # elif request.method == 'POST': #add data
-    #     global maxID
-    #     item = {
-    #     "id" : request.json['id'],
-    #     # "name": request.json['name'],
-    #     # "price": request.json['price'],
-    #     # "isInCart": request.json['isInCart'],
-    #     # "qtyInCart": request.json['qtyInCart']
-    #     }
-    #     for element in storeData:
-    #         if element["id"] == item["id"]:
-    #             storeData.remove(element)
-    #             storeData.append(item)
-    #     response = jsonify({'data': 'received'})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
@@ -179,7 +165,6 @@ def get_post_cart_data():
     if request.method == 'GET': #get data
         response = jsonify(cartData)
     elif request.method == 'POST': #add data
-        global maxID
         item = {
         "id" : request.json['id'],
         "qtyToAdd": request.json['qtyToAdd'],

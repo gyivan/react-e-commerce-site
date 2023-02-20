@@ -138,6 +138,7 @@ function App() {
         clickCart={clickCart}
         clickShop={clickShop}
 
+        itemId={itemId}
         handleItemIdChange={handleItemIdChange}
         handleQtyToAddChange={handleQtyToAddChange}
         handleAddToCart={handleAddToCart}

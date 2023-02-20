@@ -6,6 +6,8 @@ const StorePage = ( {
     showCart,
     clickCart,
 
+    itemId,
+    qtyToAdd,
     handleItemIdChange,
     handleQtyToAddChange,
     handleAddToCart
@@ -21,6 +23,8 @@ const StorePage = ( {
             ) : (
               <StoreItems
               items={storeData}
+              itemId={itemId}
+              qtyToAdd={qtyToAdd}
               handleItemIdChange={handleItemIdChange}
               handleQtyToAddChange={handleQtyToAddChange}
               handleAddToCart={handleAddToCart}
