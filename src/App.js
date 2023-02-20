@@ -1,23 +1,26 @@
-import logo from './logo.svg';
 import './App.css';
+import StoreItems from './components/StoreItems';
 
 function App() {
+
+  const storeData = [
+    {
+    "id" : 1,
+    "name": "Hamburger",
+    "price": 5.00,
+    "inCart": false
+    },
+    {
+    "id" : 2,
+    "name": "French Fries",
+    "price": 6.00,
+    "inCart": false
+    }
+]
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <StoreItems items={storeData} />
     </div>
   );
 }
