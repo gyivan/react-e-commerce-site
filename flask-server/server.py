@@ -171,10 +171,19 @@ def get_post_cart_data():
         "isInCart": request.json['isInCart'],
         "qtyInCart": request.json['qtyInCart']
         }
+        itemFound = False
         for element in cartData:
             if element["id"] == item["id"]:
-                cartData.remove(element)
-                cartData.append(item)
+                itemFound = True
+                element["qtyInCart"] = item["qtyInCart"]
+        if itemFound == False: #if item is not already in cart
+            cartData.append(item)
+        
+        #update store data to include item in cart
+        for element in storeData:
+            if element["id"] == item["id"]:
+                element["isInCart"] = True
+
         response = jsonify({'data': 'received'})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response

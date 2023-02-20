@@ -89,7 +89,7 @@ function App() {
 
   //Toggle show cart or store pages
   const [showCartPage, setShowCartPage] = useState(false)
-  
+
   const clickCart = event => {
     setShowCartPage(true)
   }
@@ -99,9 +99,11 @@ function App() {
   }
 
 
+  //Add items to cart
+
+
   return (
     <div>
-
       { isLoggedIn ? (
         // if isLoggedIn is true, display main content
         <AppContent 
@@ -121,7 +123,6 @@ function App() {
         handlePasswordChange={handlePasswordChange}
         handleLogin={handleLogin} />
       )
-
       }
     </div>
   );
