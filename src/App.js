@@ -21,7 +21,7 @@ function App() {
       },
       mode: 'cors'})
       setStoreData(res.data)
-      console.log(storeData)
+      // console.log(storeData)
     } catch (error) {
       setError(error)
     }
@@ -37,7 +37,7 @@ function App() {
       },
       mode: 'cors'})
       setCartData(res.data)
-      console.log(storeData)
+      // console.log(storeData)
     } catch (error) {
       setError(error)
     }
@@ -102,13 +102,15 @@ function App() {
   //Add items to cart
   const [qtyToAdd, setQtyToAdd] = useState(0)
   const [itemId, setItemId] = useState(0)
-  const handleItemIdChange = event => {
+  const handleItemIdChange = (event) => {
+    event.preventDefault()
     const newId = parseInt(event.target.value)
     if (newId !== itemId) {
       setItemId(newId)
     }
   }
-  const handleQtyToAddChange = event => {
+  const handleQtyToAddChange = (event) => {
+    event.preventDefault()
     const newQtyToAdd = parseInt(event.target.value)
     if (newQtyToAdd !== qtyToAdd) {
       setQtyToAdd(newQtyToAdd)
@@ -130,6 +132,8 @@ function App() {
     } catch (err) {
       console.error(err)
     }
+    fetchStoreData()
+    fetchCartData()
   }
 
 

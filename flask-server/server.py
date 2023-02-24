@@ -166,7 +166,7 @@ def get_post_cart_data():
         response = jsonify(cartData)
     elif request.method == 'POST': #add data
         item = {
-        "id" : request.json['id'],
+        "id" : request.json['itemId'],
         "qtyToAdd": request.json['qtyToAdd'],
         }
         itemFound = False
