@@ -9,6 +9,7 @@ const AppContent = ( {
     clickShop,
 
     itemId,
+    qtyToAdd,
     handleItemIdChange,
     handleQtyToAddChange,
     handleAddToCart
@@ -26,6 +27,8 @@ const AppContent = ( {
     showCart={showCart}
     clickCart={clickCart}
     
+    itemId={itemId}
+    qtyToAdd={qtyToAdd}
     handleItemIdChange={handleItemIdChange}
     handleQtyToAddChange={handleQtyToAddChange}
     handleAddToCart={handleAddToCart}

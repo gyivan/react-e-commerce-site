@@ -103,10 +103,16 @@ function App() {
   const [qtyToAdd, setQtyToAdd] = useState(0)
   const [itemId, setItemId] = useState(0)
   const handleItemIdChange = event => {
-    setItemId(event.target.value)
+    const newId = parseInt(event.target.value)
+    if (newId !== itemId) {
+      setItemId(newId)
+    }
   }
   const handleQtyToAddChange = event => {
-    setQtyToAdd(event.target.value)
+    const newQtyToAdd = parseInt(event.target.value)
+    if (newQtyToAdd !== qtyToAdd) {
+      setQtyToAdd(newQtyToAdd)
+    }
   }
   const handleAddToCart = async (event) => {
     event.preventDefault()
@@ -139,6 +145,7 @@ function App() {
         clickShop={clickShop}
 
         itemId={itemId}
+        qtyToAdd={qtyToAdd}
         handleItemIdChange={handleItemIdChange}
         handleQtyToAddChange={handleQtyToAddChange}
         handleAddToCart={handleAddToCart}
