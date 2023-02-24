@@ -12,7 +12,7 @@ const CartItem = ( {item} ) => {
 
   return (
     <div className="item">
-      <h3>{image && <img src={image} alt={item.name} />}
+      <h3>{item.id}{image && <img src={image} alt={item.name} />}
       {item.name}
       <p>Qty: {item.qtyInCart}</p>
       <FaTimes style={{ color: 'red', cursor: 'pointer'}} />

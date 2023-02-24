@@ -136,6 +136,8 @@ function App() {
     fetchCartData()
   }
 
+  
+
 
   return (
     <div>
